@@ -1,0 +1,77 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id      BigInt      @id @default(autoincrement())
+  first_name    String?
+  last_name     String
+  password      String
+  email         String   @unique
+  age           Int?
+  birthday      DateTime
+  created_at    DateTime @default(now())
+  updated_at    DateTime @default(now())
+  //deleted_at    Datetime @default(null)
+
+  @@map("users")
+}
+
+model Chat {
+  id      BigInt       @id @default(autoincrement())
+  group_id    BigInt 
+  user_id     BigInt 
+  to_user_id     BigInt 
+  status_read    Boolean
+  created_at    DateTime @default(now())
+  updated_at    DateTime @default(now())
+  //deleted_at    Datetime @default(null)
+
+  @@map("chat")
+}
+
+model ChatGroups {
+  id      BigInt       @id @default(autoincrement())
+  user_id    BigInt 
+  whislist_id     BigInt 
+  status_read    Boolean
+  created_at    DateTime @default(now())
+  updated_at    DateTime @default(now())
+  //deleted_at    Datetime @default(null)
+
+  @@map("chatgroups")
+}
+
+model Products {
+  id      BigInt       @id @default(autoincrement())
+  name    String
+  features Json
+  created_at    DateTime @default(now())
+  updated_at    DateTime @default(now())
+  //deleted_at    Datetime @default(null)
+
+  @@map("products")
+}
+
+
+model Wishlists {
+  id      BigInt      @id @default(autoincrement())
+  user_id BigInt 
+  product_id BigInt 
+  name    String
+  purchased Boolean
+  purchased_by Json
+  created_at    DateTime @default(now())
+  updated_at    DateTime @default(now())
+  //deleted_at    Datetime @default(null)
+
+  @@map("wishlists")
+}
