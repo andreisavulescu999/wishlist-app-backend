@@ -30,7 +30,7 @@ const addUser = async (name) => {
     return user;
 };
 
-const updateUser = async (id, name) => {
+const updateUser = async (id) => {
     const user = await prisma.user.update({
         where: {
             id

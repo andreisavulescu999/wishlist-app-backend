@@ -21,49 +21,53 @@ model User {
   created_at    DateTime @default(now())
   updated_at    DateTime @default(now())
   deleted_at    DateTime?
-
+  // chats         Chat[]
+  groups        Groups[]
+  userchat      UserChatGroups[]
+  // userwishlist  UserWishlists[]
   @@map("users")
 }
 
 model Chat {
   id            BigInt       @id @default(autoincrement())
   group_id      BigInt 
-  user_id       BigInt 
-  to_user_id    BigInt 
+  text          String?
   status_read   Boolean
   created_at    DateTime @default(now())
   updated_at    DateTime @default(now())
   deleted_at    DateTime? 
-  //user     User     @relation(fields: [user_id], references: [id])
+
   @@map("chat")
 }
 
 model Groups {
-  id      BigInt       @id @default(autoincrement())
-  user_id    BigInt 
-  whislist_id     BigInt 
-  status_read    Boolean
+  id            BigInt       @id @default(autoincrement())
+  creator_id    BigInt 
+  wishlist_id   BigInt 
   created_at    DateTime @default(now())
   updated_at    DateTime @default(now())
   deleted_at    DateTime?
+  author        User      @relation(fields: [creator_id], references: [id])
+  wishlist      Wishlists @relation(fields: [wishlist_id], references: [id])
 
   @@map("groups")
 }
 model UserChatGroups {
-  id      BigInt       @id @default(autoincrement())
-  user_id    BigInt 
+  id              BigInt       @id @default(autoincrement())
+  user_id         BigInt 
   whislist_id     BigInt 
-  status_read    Boolean
-  created_at    DateTime @default(now())
-  updated_at    DateTime @default(now())
-  deleted_at    DateTime?
+  status_read     Boolean
+  created_at      DateTime @default(now())
+  updated_at      DateTime @default(now())
+  deleted_at      DateTime?
+  author          User      @relation(fields: [user_id], references: [id])
 
   @@map("userchatgroups")
 }
 model Products {
-  id      BigInt       @id @default(autoincrement())
-  name    String
-  features Json
+  id            BigInt       @id @default(autoincrement())
+  name          String
+  features      Json
   created_at    DateTime @default(now())
   updated_at    DateTime @default(now())
   deleted_at    DateTime?
@@ -73,28 +77,29 @@ model Products {
 
 
 model Wishlists {
-  id      BigInt      @id @default(autoincrement())
-  user_id BigInt 
-  product_id BigInt 
-  name    String
-  purchased Boolean
-  purchased_by Json
+  id            BigInt      @id @default(autoincrement())
+  user_id       BigInt 
+  product_id    Json
+  name          String
   created_at    DateTime @default(now())
   updated_at    DateTime @default(now())
   deleted_at  DateTime?
 
+  groups Groups[]
+  userwishlist UserWishlists[]
   @@map("wishlists")
 }
 
 model UserWishlists {
-  id      BigInt      @id @default(autoincrement())
-  wishlist_id BigInt
-  creator_id BigInt 
-  purchased Boolean
-  purchased_by Json
+  id            BigInt      @id @default(autoincrement())
+  wishlist_id   BigInt
+  // creator_id    BigInt 
+  purchased     Boolean  @default(false)
+  purchased_by  Json?
   created_at    DateTime @default(now())
   updated_at    DateTime @default(now())
   deleted_at    DateTime?
-
+  wishlist      Wishlists @relation(fields: [wishlist_id], references: [id])
+  // author        User      @relation(fields: [creator_id], references: [id])
   @@map("userwishlists")
 }
