@@ -26,8 +26,8 @@ const addProduct = async (name,features) => {
     return newProduct;
 };
 
-const updateUser = async (id, name) => {
-    const user = await prisma.products.update({
+const updateProduct = async (id, name) => {
+    const product = await prisma.products.update({
         where: {
             id
         },
@@ -36,7 +36,7 @@ const updateUser = async (id, name) => {
             features
         }
     })
-    return user;
+    return product;
 };
 
 const deleteProduct = async (id) => {
@@ -47,3 +47,5 @@ const deleteProduct = async (id) => {
     });
     return product;
 };
+
+export default { getAll, getProduct, deleteProduct, addProduct, updateProduct};

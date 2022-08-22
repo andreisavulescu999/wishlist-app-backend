@@ -47,3 +47,5 @@ const deleteGroup = async (id) => {
     });
     return group;
 };
+
+export default { getAll, getGroup, deleteGroup, addGroup, updateGroup};

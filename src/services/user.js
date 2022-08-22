@@ -13,10 +13,6 @@ const getUser = async (id) => {
         where: {
             id
         },
-        include: {
-            personalGames: true,
-            inviteGames: true
-        }
     })
     return user;
 };

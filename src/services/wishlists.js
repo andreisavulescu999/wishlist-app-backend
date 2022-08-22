@@ -16,6 +16,15 @@ const getWishList = async (id) => {
     return wishlist;
 };
 
+const getUserWishLists = async (id) => {
+    const wishlist = await prisma.wishlists.findMany({
+        where: {
+            user_id
+        },
+    })
+    return wishlist;
+};
+
 const addWishlist = async (name,products) => {
     const newWishlist = await prisma.wishlists.create({
         data: {
@@ -47,3 +56,5 @@ const deleteWishlist = async (id) => {
     });
     return Wishlist;
 };
+
+export default { getAll,getUserWishLists, getWishList, deleteWishlist, addWishlist, updateWishlist};
