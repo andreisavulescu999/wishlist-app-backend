@@ -5,33 +5,25 @@ import validationMiddleware from "../middleware/validationMiddleware.js";
 import { check } from "express-validator";
 import { jwtMiddleware } from "../middleware/auth.js";
 import userMiddleware from "../middleware/userMiddleware.js";
+import bodyParser from "body-parser";
 
 const router = express.Router();
+const urlencodedParser = bodyParser.urlencoded({ extended: false })
+
+router.post('/login', usersController.loginUser)
+
+router.get('/:id', usersController.getUser)
+
+router.route('/:id/update')
+    .get(userMiddleware, usersController.updateUser)
 
 router.route('/')
-    .get(requestMiddleware, usersController.getUsers)
-    .post([
-        check("name", "Invalid name, it must have at least 4 characters").isLength({ min: 4 })
-    ], validationMiddleware, usersController.addUser)
-    .put([
-        check("name", "Invalid name, it must have at least 4 characters").isLength({ min: 4 })
-    ], validationMiddleware, jwtMiddleware, usersController.updateUser)
-    .delete(jwtMiddleware, usersController.deleteUser)
+    .get(usersController.getUsers);   
 
-router.route('/login')
-    .post([
-        check("name", "Invalid name, it must have at least 4 characters").isLength({ min: 4 })
-    ], validationMiddleware, usersController.loginUser)
-
-router.route('/user/:id')
-    .get(userMiddleware(id), usersController.getUser)
-
-router.route('/user/:id/update')
-    .get(userMiddleware(id), usersController.updateUser)
-    
-router.route('/user/:id/delete')
+router.route('/:id/delete')
     .get(requestMiddleware, usersController.deleteUser)    
 
-router.route('/user/create')
-    .get(requestMiddleware, usersController.addUser)    
+router.post('/create',urlencodedParser, usersController.addUser)    
+
+
 export default router;

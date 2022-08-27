@@ -11,13 +11,14 @@ datasource db {
 }
 
 model User {
-  id      BigInt      @id @default(autoincrement())
+  id      Int      @id @default(autoincrement())
+  username      String?
   first_name    String?
   last_name     String
   password      String
   email         String   @unique
   age           Int?
-  birthday      DateTime
+  birthday      DateTime?
   created_at    DateTime @default(now())
   updated_at    DateTime @default(now())
   deleted_at    DateTime?
@@ -29,8 +30,8 @@ model User {
 }
 
 model Chat {
-  id            BigInt       @id @default(autoincrement())
-  group_id      BigInt 
+  id            Int       @id @default(autoincrement())
+  group_id      Int 
   text          String?
   status_read   Boolean
   created_at    DateTime @default(now())
@@ -41,9 +42,9 @@ model Chat {
 }
 
 model Groups {
-  id            BigInt       @id @default(autoincrement())
-  creator_id    BigInt 
-  wishlist_id   BigInt 
+  id            Int       @id @default(autoincrement())
+  creator_id    Int 
+  wishlist_id   Int 
   created_at    DateTime @default(now())
   updated_at    DateTime @default(now())
   deleted_at    DateTime?
@@ -53,9 +54,9 @@ model Groups {
   @@map("groups")
 }
 model UserChatGroups {
-  id              BigInt       @id @default(autoincrement())
-  user_id         BigInt 
-  whislist_id     BigInt 
+  id              Int       @id @default(autoincrement())
+  user_id         Int 
+  whislist_id     Int 
   status_read     Boolean
   created_at      DateTime @default(now())
   updated_at      DateTime @default(now())
@@ -65,7 +66,7 @@ model UserChatGroups {
   @@map("userchatgroups")
 }
 model Products {
-  id            BigInt       @id @default(autoincrement())
+  id            Int       @id @default(autoincrement())
   name          String
   features      Json
   created_at    DateTime @default(now())
@@ -77,8 +78,8 @@ model Products {
 
 
 model Wishlists {
-  id            BigInt      @id @default(autoincrement())
-  user_id       BigInt 
+  id            Int      @id @default(autoincrement())
+  user_id       Int 
   product_id    Json
   name          String
   created_at    DateTime @default(now())
@@ -91,9 +92,9 @@ model Wishlists {
 }
 
 model UserWishlists {
-  id            BigInt      @id @default(autoincrement())
-  wishlist_id   BigInt
-  // creator_id    BigInt 
+  id            Int      @id @default(autoincrement())
+  wishlist_id   Int
+  // creator_id    Int 
   purchased     Boolean  @default(false)
   purchased_by  Json?
   created_at    DateTime @default(now())

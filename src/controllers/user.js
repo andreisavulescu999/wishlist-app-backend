@@ -26,7 +26,7 @@ const getUser = async (req, res, next) => {
 
 const addUser = async (req, res, next) => {
     try {
-        const newUser = await userServices.addUser(req.body.name);
+        const newUser = await userServices.addUser(req.body);
         res.json(newUser);
     } catch (err) {
         next(err);
@@ -61,7 +61,7 @@ const deleteUser = async (req, res, next) => {
 
 const loginUser = async (req, res, next) => {
     try {
-        const token = await userServices.loginUser(req.body.name);
+        const token = await userServices.loginUser(req.body);
         res.send({
             token
         });

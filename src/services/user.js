@@ -4,7 +4,7 @@ import { geneateAuthToken } from "../utils/auth.js";
 const prisma = new PrismaClient();
 
 const getAll = async () => {
-    const users = await prisma.user.findMany()
+    const users = await prisma.findMany()
     return users;
 };
 
@@ -17,10 +17,16 @@ const getUser = async (id) => {
     return user;
 };
 
-const addUser = async (name) => {
+const addUser = async (data_user) => {
     const user = await prisma.user.create({
         data: {
-            name
+            username      : data_user.username,
+            first_name    : data_user?.first_name,
+            last_name     : data_user?.last_name,
+            password      : data_user?.password,
+            email         : data_user?.email,
+            age           : data_user?.age,
+            birthday      : data_user?.birthday
         }
     });
     return user;
@@ -52,11 +58,12 @@ const deleteUser = async (id) => {
     return user;
 };
 
-const loginUser = async (email,password) => {
+const loginUser = async (data) => {
+    console.log(data);
     const existingUser = await prisma.user.findUnique({
         where: {
-            email,
-            password
+            email:data?.email,
+            password:data?.password
         }
     });
     if (!existingUser) {
