@@ -3,14 +3,14 @@ import product from "../controllers/products.js";
 
 const router = express.Router();
 
-router.get('/products',validationMiddleware, product.getAll);
+router.get('/all',product.getProducts);
 
-router.get('/product/:id',validationMiddleware, product.getProduct);
+router.get('/:id',product.getProduct);
 
-router.post('/product/create',product.addProduct);
+router.post('/create',product.addProduct);
 
-router.route('/product/:id/edit')
-    .get(validationMiddleware, product.updateProduct);
+router.get('/:id/edit',product.updateProduct);
     
-router.get('/product/:id/delete',validationMiddleware,product.deleteProduct);
+router.get('/:id/delete',product.deleteProduct);
 
+export default router;

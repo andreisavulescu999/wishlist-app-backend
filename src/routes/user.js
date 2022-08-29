@@ -14,14 +14,11 @@ router.post('/login', usersController.loginUser)
 
 router.get('/:id', usersController.getUser)
 
-router.route('/:id/update')
-    .get(userMiddleware, usersController.updateUser)
+router.get('/:id/update',userMiddleware, usersController.updateUser)
 
-router.route('/')
-    .get(usersController.getUsers);   
+router.get('/',usersController.getUsers);   
 
-router.route('/:id/delete')
-    .get(requestMiddleware, usersController.deleteUser)    
+router.get('/:id/delete',requestMiddleware, usersController.deleteUser)    
 
 router.post('/create',urlencodedParser, usersController.addUser)    
 
