@@ -25,6 +25,7 @@ model User {
   // chats         Chat[]
   groups        Groups[]
   userchat      UserChatGroups[]
+  products      Products[]
   // userwishlist  UserWishlists[]
   @@map("users")
 }
@@ -68,11 +69,12 @@ model UserChatGroups {
 model Products {
   id            Int       @id @default(autoincrement())
   name          String
+  user_id       Int      
   features      Json
   created_at    DateTime @default(now())
   updated_at    DateTime @default(now())
   deleted_at    DateTime?
-
+  author        User      @relation(fields: [user_id], references: [id])
   @@map("products")
 }
 

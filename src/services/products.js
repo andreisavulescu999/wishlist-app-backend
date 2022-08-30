@@ -10,30 +10,31 @@ const getAll = async () => {
 const getProduct = async (id) => {
     const product = await prisma.products.findUnique({
         where: {
-            id
+            id:parseInt(id)
         },
     })
     return product;
 };
 
-const addProduct = async (name,features) => {
+const addProduct = async (data) => {
     const newProduct = await prisma.products.create({
         data: {
-            name,
-            features
+            name:data?.name,
+            user_id:parseInt(data?.user_id),
+            features:data?.features
         }
     });
     return newProduct;
 };
 
-const updateProduct = async (id, name) => {
+const updateProduct = async (id, data) => {
     const product = await prisma.products.update({
         where: {
-            id
+            id:parseInt(id)
         },
         data: {
-            name,
-            features
+            name:data?.name,
+            features:data?.features
         }
     })
     return product;
@@ -42,7 +43,7 @@ const updateProduct = async (id, name) => {
 const deleteProduct = async (id) => {
     const product = await prisma.products.delete({
         where: {
-            id: id
+            id: parseInt(id)
         }
     });
     return product;

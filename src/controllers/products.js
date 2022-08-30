@@ -35,7 +35,7 @@ const addProduct = async (req, res, next) => {
 
 const updateProduct = async (req, res, next) => {
     try {
-        const id = req.id
+        const id = req.params.id
         const product = await productServices.getProduct(id);
 
         if (!product) {
@@ -52,7 +52,7 @@ const updateProduct = async (req, res, next) => {
 
 const deleteProduct = async (req, res, next) => {
     try {
-        await productServices.deleteProduct(req.id);
+        await productServices.deleteProduct(req.params.id);
         res.send("Product deleted");
     } catch (err) {
         next(err);
