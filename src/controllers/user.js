@@ -26,6 +26,9 @@ const getUser = async (req, res, next) => {
 
 const addUser = async (req, res, next) => {
     try {
+        const user_email = await userServices.getEmailUser(req.body.email);
+        if(user_email)
+            res.send("Choose another email");
         const newUser = await userServices.addUser(req.body);
         res.json(newUser);
     } catch (err) {
@@ -35,15 +38,19 @@ const addUser = async (req, res, next) => {
 
 const updateUser = async (req, res, next) => {
     try {
-        const id = req.auth.userId
-        const user = await userServices.getUser(id);
+        // const id = req.auth.userId
+        const user = await userServices.getUser(req.params.id);
 
         if (!user) {
             res.status(404).send("No user found");
-            return;
+            return "No user found"; 
         }
-
-        await userServices.updateUser(id, req.body.name);
+        else{
+            const user_email = await userServices.getEmailUser(req.body.email);
+            if(user_email)
+                res.send("Choose another email");
+        }
+        await userServices.updateUser(user.id, req.body);
         res.send("User updated");
     } catch (err) {
         next(err);
@@ -52,7 +59,7 @@ const updateUser = async (req, res, next) => {
 
 const deleteUser = async (req, res, next) => {
     try {
-        await userServices.deleteUser(req.auth.userId);
+        await userServices.deleteUser(req.params.id);
         res.send("User deleted");
     } catch (err) {
         next(err);

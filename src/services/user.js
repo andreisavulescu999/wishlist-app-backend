@@ -4,7 +4,7 @@ import { geneateAuthToken } from "../utils/auth.js";
 const prisma = new PrismaClient();
 
 const getAll = async () => {
-    const users = await prisma.findMany()
+    const users = await prisma.user.findMany();
     return users;
 };
 
@@ -12,6 +12,15 @@ const getUser = async (id) => {
     const user = await prisma.user.findUnique({
         where: {
             id: parseInt(id)
+        },
+    })
+    return user;
+};
+
+const getEmailUser = async (email) => {
+    const user = await prisma.user.findUnique({
+        where: {
+            email
         },
     })
     return user;
@@ -32,27 +41,28 @@ const addUser = async (data_user) => {
     return user;
 };
 
-const updateUser = async (id) => {
+const updateUser = async (id,data) => {
     const user = await prisma.user.update({
         where: {
-            id
+            id:parseInt(id)
         },
         data: {
-            first_name,
-            last_name,
-            password,
-            email,
-            age,
-            birthday
+            username      : data?.username,
+            first_name    : data?.first_name,
+            last_name     : data?.last_name,
+            password      : data?.password,
+            email         : data?.email,
+            age           : data?.age,
+            birthday      : data?.birthday
         }
     })
     return user;
 };
 
 const deleteUser = async (id) => {
-    const user = await prisma.user.delete({
+    const user = await prisma.user.update({
         where: {
-            id: id
+            deleted_at: now()
         }
     });
     return user;
@@ -60,7 +70,7 @@ const deleteUser = async (id) => {
 
 const loginUser = async (data) => {
     console.log(data);
-    const existingUser = await prisma.user.findUnique({
+    const existingUser = await prisma.user.findFirst({
         where: {
             email:data?.email,
             password:data?.password
@@ -72,4 +82,4 @@ const loginUser = async (data) => {
     return geneateAuthToken(existingUser.id, existingUser.name);
 }
 
-export default { getAll, getUser, deleteUser, addUser, updateUser, loginUser };
+export default { getAll, getUser, deleteUser, addUser, updateUser, loginUser,getEmailUser };

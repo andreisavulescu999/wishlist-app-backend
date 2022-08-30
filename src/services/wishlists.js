@@ -3,8 +3,8 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const getAll = async () => {
-    const wishlist = await prisma.wishlists.findMany()
-    return wishlist;
+    const wishlists = await prisma.wishlists.findMany()
+    return wishlists;
 };
 
 const getWishList = async (id) => {
