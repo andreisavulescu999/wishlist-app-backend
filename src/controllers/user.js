@@ -1,4 +1,5 @@
 import userServices from "../services/user.js";
+import bcrypt from 'bcrypt';
 
 const getUsers = async (req, res, next) => {
     try {
@@ -67,10 +68,11 @@ const deleteUser = async (req, res, next) => {
 };
 
 const loginUser = async (req, res, next) => {
+    
     try {
-        const token = await userServices.loginUser(req.body);
+        const user = await userServices.loginUser(req.body);
         res.send({
-            token
+            user
         });
     } catch (err) {
         next(err);

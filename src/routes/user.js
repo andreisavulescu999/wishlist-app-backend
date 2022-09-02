@@ -21,5 +21,6 @@ router.get('/:id/delete',usersController.deleteUser)
 
 router.post('/create',usersController.addUser)    
 
+router.post('/register',usersController.addUser)  
 
 export default router;

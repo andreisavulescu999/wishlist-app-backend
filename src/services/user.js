@@ -1,5 +1,7 @@
 import { PrismaClient } from "@prisma/client";
-import { geneateAuthToken } from "../utils/auth.js";
+import { generateAuthToken } from "../utils/auth.js";
+import bcrypt from 'bcrypt';
+
 
 const prisma = new PrismaClient();
 
@@ -27,12 +29,13 @@ const getEmailUser = async (email) => {
 };
 
 const addUser = async (data_user) => {
+    const hashedPassword = await bcrypt.hash(data_user?.password, 10)
     const user = await prisma.user.create({
         data: {
             username      : data_user.username,
             first_name    : data_user?.first_name,
             last_name     : data_user?.last_name,
-            password      : data_user?.password,
+            password      : hashedPassword,
             email         : data_user?.email,
             age           : data_user?.age,
             birthday      : data_user?.birthday
@@ -42,6 +45,7 @@ const addUser = async (data_user) => {
 };
 
 const updateUser = async (id,data) => {
+    const hashedPassword = await bcrypt.hash(data_user?.password, 10)
     const user = await prisma.user.update({
         where: {
             id:parseInt(id)
@@ -50,7 +54,7 @@ const updateUser = async (id,data) => {
             username      : data?.username,
             first_name    : data?.first_name,
             last_name     : data?.last_name,
-            password      : data?.password,
+            password      : hashedPassword,
             email         : data?.email,
             age           : data?.age,
             birthday      : data?.birthday
@@ -69,17 +73,21 @@ const deleteUser = async (id) => {
 };
 
 const loginUser = async (data) => {
-    console.log(data);
     const existingUser = await prisma.user.findFirst({
         where: {
-            email:data?.email,
-            password:data?.password
-        }
+            email:data?.email
+        },
     });
     if (!existingUser) {
         throw new Error("Invalid user");
     }
-    return geneateAuthToken(existingUser.id, existingUser.name);
+    if(await bcrypt.compare(data.password,existingUser.password)){
+        const token = generateAuthToken(existingUser.id, existingUser.name);
+        const auth = {existingUser,token};  
+        return auth;
+    }
+    else
+        throw new Error("Invalid password");    
 }
 
 export default { getAll, getUser, deleteUser, addUser, updateUser, loginUser,getEmailUser };

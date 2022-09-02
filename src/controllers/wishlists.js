@@ -1,8 +1,9 @@
-import wishlistServices from "../services/wishlists";
+import wishlistServices from "../services/wishlists.js";
 
 const getWishlists = async (req, res, next) => {
     try {
-        res.json(await wishlistServices.getAll());
+        const wishlists  = await wishlistServices.getAll();
+        res.json(wishlists);
     } catch (err) {
         next(err);
     }
@@ -11,7 +12,7 @@ const getWishlists = async (req, res, next) => {
 const getWishlist = async (req, res, next) => {
     try {
 
-        const existingWishlist = await wishlistServices.getWishlist(req.params.id);
+        const existingWishlist = await wishlistServices.getWishList(req.params.id);
 
         if (!existingWishlist) {
             res.status(404).send("No wishlist found");
@@ -26,7 +27,7 @@ const getWishlist = async (req, res, next) => {
 
 const addWishlist = async (req, res, next) => {
     try {
-        const newWishlist = await wishlistServices.addWishlist(req.body.name);
+        const newWishlist = await wishlistServices.addWishlist(req.body);
         res.json(newWishlist);
     } catch (err) {
         next(err);
@@ -35,15 +36,15 @@ const addWishlist = async (req, res, next) => {
 
 const updateWishlist = async (req, res, next) => {
     try {
-        const id = req.auth.userId
-        const user = await wishlistServices.getUser(id);
+        // const id = req.auth.userId
+        const wishlist = await wishlistServices.getWishList(req.params.id);
 
-        if (!user) {
+        if (!wishlist) {
             res.status(404).send("No wishlist found");
             return;
         }
 
-        await wishlistServices.updateWishlist(id, req.body.name);
+        await wishlistServices.updateWishlist(req.params.id,req.body);
         res.send("Wishlist updated");
     } catch (err) {
         next(err);
@@ -52,7 +53,7 @@ const updateWishlist = async (req, res, next) => {
 
 const deleteWishlist = async (req, res, next) => {
     try {
-        await wishlistServices.deleteWishlist(req.auth.userId);
+        const wishlist = await wishlistServices.deleteWishlist(req.params.id);
         res.send("Wishlist deleted");
     } catch (err) {
         next(err);

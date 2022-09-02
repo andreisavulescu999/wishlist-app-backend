@@ -3,20 +3,16 @@ import wishlist from "../controllers/wishlists.js";
 
 const router = express.Router();
 
-router.route('/wishlists')
-    .post(validationMiddleware, wishlist.getAll);
+router.get('/',wishlist.getWishlists);
     
-router.route('/user/:id/wishlists')
-    .get(validationMiddleware, wishlist.getUserWishLists);    
+// router.get('/user/:id',wishlist.getUserWishLists);    
 
-router.route('/wishlist/:id')
-    .get(validationMiddleware, wishlist.getWishlist);
+router.get('/:id',wishlist.getWishlist);
 
-router.route('/wishlist/create')
-    .get(validationMiddleware, wishlist.addWishlist);
+router.post('/create',wishlist.addWishlist);
 
-router.route('/wishlist/:id/edit')
-    .get(validationMiddleware, wishlist.updateWishlist);
+router.post('/:id/update',wishlist.updateWishlist);
     
-router.route('/wishllist/:id/delete')
-    .get(validationMiddleware, wishlist.deleteWishlist);
+router.get('/:id/delete',wishlist.deleteWishlist);
+
+export default router;

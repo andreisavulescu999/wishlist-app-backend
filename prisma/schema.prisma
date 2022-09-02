@@ -20,7 +20,7 @@ model User {
   age           Int?
   birthday      DateTime?
   created_at    DateTime @default(now())
-  updated_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
   deleted_at    DateTime?
   // chats         Chat[]
   groups        Groups[]
@@ -36,7 +36,7 @@ model Chat {
   text          String?
   status_read   Boolean
   created_at    DateTime @default(now())
-  updated_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
   deleted_at    DateTime? 
 
   @@map("chat")
@@ -47,7 +47,7 @@ model Groups {
   creator_id    Int 
   wishlist_id   Int 
   created_at    DateTime @default(now())
-  updated_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
   deleted_at    DateTime?
   author        User      @relation(fields: [creator_id], references: [id])
   wishlist      Wishlists @relation(fields: [wishlist_id], references: [id])
@@ -60,7 +60,7 @@ model UserChatGroups {
   whislist_id     Int 
   status_read     Boolean
   created_at      DateTime @default(now())
-  updated_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
   deleted_at      DateTime?
   author          User      @relation(fields: [user_id], references: [id])
 
@@ -72,9 +72,9 @@ model Products {
   user_id       Int      
   features      Json
   created_at    DateTime @default(now())
-  updated_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
   deleted_at    DateTime?
-  author        User      @relation(fields: [user_id], references: [id])
+  author        User      @relation(fields: [user_id], references: [id] ,onUpdate: Cascade, onDelete: Cascade)
   @@map("products")
 }
 
@@ -82,10 +82,10 @@ model Products {
 model Wishlists {
   id            Int      @id @default(autoincrement())
   user_id       Int 
-  product_id    Json
+  product_id    Json?
   name          String
   created_at    DateTime @default(now())
-  updated_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
   deleted_at  DateTime?
 
   groups Groups[]
@@ -100,9 +100,9 @@ model UserWishlists {
   purchased     Boolean  @default(false)
   purchased_by  Json?
   created_at    DateTime @default(now())
-  updated_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
   deleted_at    DateTime?
-  wishlist      Wishlists @relation(fields: [wishlist_id], references: [id])
+  wishlist      Wishlists @relation(fields: [wishlist_id], references: [id] ,onUpdate: Cascade, onDelete: Cascade)
   // author        User      @relation(fields: [creator_id], references: [id])
   @@map("userwishlists")
 }
