@@ -35,7 +35,7 @@ const addGroup = async (req, res, next) => {
 
 const updateGroup = async (req, res, next) => {
     try {
-        const id = req.id
+        const id = req.params.id
         const Group = await groupServices.getGroup(id);
 
         if (!Group) {
@@ -52,8 +52,8 @@ const updateGroup = async (req, res, next) => {
 
 const deleteGroup = async (req, res, next) => {
     try {
-        await groupServices.deleteProduct(req.id);
-        res.send("Product deleted");
+        await groupServices.deleteGroup(req.params.id);
+        res.send("Group deleted");
     } catch (err) {
         next(err);
     }

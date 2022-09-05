@@ -16,7 +16,6 @@ const getUser = async (req, res, next) => {
 
         if (!existingUser) {
             res.status(404).send("No user found");
-            return;
         }
 
         res.json(existingUser);
@@ -44,7 +43,6 @@ const updateUser = async (req, res, next) => {
 
         if (!user) {
             res.status(404).send("No user found");
-            return "No user found"; 
         }
         else{
             const user_email = await userServices.getEmailUser(req.body.email);
@@ -68,7 +66,6 @@ const deleteUser = async (req, res, next) => {
 };
 
 const loginUser = async (req, res, next) => {
-    
     try {
         const user = await userServices.loginUser(req.body);
         res.send({

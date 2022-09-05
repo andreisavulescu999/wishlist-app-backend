@@ -1,22 +1,12 @@
-// import express from "express";
-// import product from "../controllers/products.js";
+import express from "express";
+import wishlist from "../controllers/userwishlists.js";
 
-// import wishlist from "../controllers/userwishlists";
+const router = express.Router();
 
-// const router = express.Router();
+router.get('/:id',wishlist.getWishlist);
 
-// router.route('/user/:id/wishlists')
-//     .get(validationMiddleware, wishlist.getUserWishLists);
+router.get('/user/:id',wishlist.getUserWishlist);
 
-// router.route('/product/:id')
-//     .get(validationMiddleware, product.getProduct);
-
-// router.route('/product/create')
-//     .get(validationMiddleware, product.addProduct);
-
-// router.route('/product/:id/edit')
-//     .get(validationMiddleware, product.updateProduct);
+router.post('/:id/update',wishlist.updateUserWishlist);
     
-// router.route('/product/:id/delete')
-//     .get(validationMiddleware, product.deleteProduct);
-
+export default router;

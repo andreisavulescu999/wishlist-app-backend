@@ -30,9 +30,23 @@ const addWishlist = async (data) => {
         data: {
             name:data?.name,
             user_id:parseInt(data?.user_id),
-            product_id:JSON.stringify(data?.product_id),
         }
     });
+    if(data?.product_id)
+    {
+        const products = Array.from(data?.product_id);
+        console.log(products);
+        products.map((product_id) => {
+            console.log(newWishlist);
+            prisma.wishlistsproducts.create({
+                data: {
+                    wishlist_id:parseInt(newWishlist.id),
+                    product_id:parseInt(product_id),
+                }
+            });
+        });
+    }
+
     const usersWishlist = await prisma.userWishlists.create({
         data: {
             wishlist_id:parseInt(newWishlist.id),

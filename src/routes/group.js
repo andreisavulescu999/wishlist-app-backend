@@ -3,17 +3,14 @@ import group from "../controllers/group.js";
 
 const router = express.Router();
 
-router.route('/group')
-    .post(validationMiddleware, group.getAll);
+router.get('/',group.getGroups);
 
-router.route('/group/:id')
-    .get(validationMiddleware, group.getGroup);
+router.get('/:id', group.getGroup);
 
-router.route('/group/create')
-    .get(validationMiddleware, group.addGroup);
+router.post('/create', group.addGroup);
 
-router.route('/group/:id/edit')
-    .get(validationMiddleware, group.updateGroup);
+router.post('/:id/update', group.updateGroup);
     
-router.route('/group/:id/delete')
-    .get(validationMiddleware, group.deleteGroup);
+router.delete('/:id/delete', group.deleteGroup);
+
+export default router;

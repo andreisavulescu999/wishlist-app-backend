@@ -2,7 +2,6 @@ import { PrismaClient } from "@prisma/client";
 import { generateAuthToken } from "../utils/auth.js";
 import bcrypt from 'bcrypt';
 
-
 const prisma = new PrismaClient();
 
 const getAll = async () => {

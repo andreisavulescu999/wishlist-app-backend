@@ -10,39 +10,40 @@ const getAll = async () => {
 const getGroup = async (id) => {
     const group = await prisma.groups.findUnique({
         where: {
-            id
+            id:parseInt(id)
         },
     })
     return group;
 };
 
-const addGroup = async (wishlist_id) => {
+const addGroup = async (data) => {
     const newgroup = await prisma.groups.create({
         data: {
-            wishlist_id
+            wishlist_id:parseInt(data?.wishlist_id),
+            creator_id:parseInt(data?.creator_id)
         }
     });
     return newgroup;
 };
 
-// const updateGroup = async (id, name) => {
+const updateGroup = async (id,data) => {
 
-//     const user = await prisma.groups.update({
-//         where: {
-//             id
-//         },
-//         data: {
-//             name,
-//             features
-//         }
-//     })
-//     return user;
-// };
+    const group = await prisma.groups.update({
+        where: {
+            id:parseInt(id)
+        },
+        data: {
+            wishlist_id:parseInt(data?.wishlist_id),
+            creator_id:parseInt(data?.creator_id)
+        }
+    })
+    return group;
+};
 
 const deleteGroup = async (id) => {
     const group = await prisma.groups.delete({
         where: {
-            id: id
+            id: parseInt(id)
         }
     });
     return group;

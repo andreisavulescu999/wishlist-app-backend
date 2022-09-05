@@ -8,6 +8,9 @@ const app = express()
 import userRouter from "./src/routes/user.js";
 import productRouter from './src/routes/products.js';
 import wishlistRouter from './src/routes/wishlists.js';
+import userwishlistsRouter from './src/routes/userwishlists.js';
+
+import groupRouter from './src/routes/group.js';
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
@@ -16,6 +19,9 @@ app.use("/user", userRouter);
 app.use("/product", productRouter);
 
 app.use("/wishlist",wishlistRouter);
+app.use("/userwishlist",userwishlistsRouter);
+app.use("/group",groupRouter);
+
 app.get('/',(req,res) =>{
     res.send('hello world');
 })
