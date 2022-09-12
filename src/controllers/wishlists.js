@@ -9,6 +9,15 @@ const getWishlists = async (req, res, next) => {
     }
 };
 
+const getUserWishlists = async (req, res, next) => {
+    try {
+        const wishlists  = await wishlistServices.getUserWishLists(req.params.id);
+        res.json(wishlists);
+    } catch (err) {
+        next(err);
+    }
+};
+
 const getWishlist = async (req, res, next) => {
     try {
 
@@ -61,4 +70,4 @@ const deleteWishlist = async (req, res, next) => {
 };
 
 
-export default { getWishlist, getWishlists, deleteWishlist, addWishlist, updateWishlist};
+export default { getWishlist, getWishlists, deleteWishlist, addWishlist, updateWishlist,getUserWishlists};

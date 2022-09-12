@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get('/',wishlist.getWishlists);
     
-// router.get('/user/:id',wishlist.getUserWishLists);    
+router.get('/user/:id',wishlist.getUserWishlists);    
 
 router.get('/:id',wishlist.getWishlist);
 

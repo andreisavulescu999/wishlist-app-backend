@@ -23,11 +23,24 @@ const addGroup = async (data) => {
             creator_id:parseInt(data?.creator_id)
         }
     });
+
+    if(data?.users)
+    {
+        const users = Array.from(data?.users);
+        users.map(async(user_id) => {
+            const chatGroups = await prisma.UserChatGroups.create({
+                data: {
+                    wishlist_id:parseInt(data?.wishlist_id),
+                    user_id:parseInt(user_id),
+                    group_id:parseInt(newgroup.id)
+                }
+            });
+        });
+    }
     return newgroup;
 };
 
 const updateGroup = async (id,data) => {
-
     const group = await prisma.groups.update({
         where: {
             id:parseInt(id)

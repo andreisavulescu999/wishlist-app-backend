@@ -11,7 +11,6 @@ const getUsers = async (req, res, next) => {
 
 const getUser = async (req, res, next) => {
     try {
-
         const existingUser = await userServices.getUser(req.params.id);
 
         if (!existingUser) {
@@ -40,16 +39,10 @@ const updateUser = async (req, res, next) => {
     try {
         // const id = req.auth.userId
         const user = await userServices.getUser(req.params.id);
-
         if (!user) {
             res.status(404).send("No user found");
         }
-        else{
-            const user_email = await userServices.getEmailUser(req.body.email);
-            if(user_email)
-                res.send("Choose another email");
-        }
-        await userServices.updateUser(user.id, req.body);
+        const updatedUser = await userServices.updateUser(user.id, req.body);
         res.send("User updated");
     } catch (err) {
         next(err);
@@ -66,6 +59,7 @@ const deleteUser = async (req, res, next) => {
 };
 
 const loginUser = async (req, res, next) => {
+    console.log(req.body);
     try {
         const user = await userServices.loginUser(req.body);
         res.send({

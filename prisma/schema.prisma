@@ -34,7 +34,7 @@ model Chat {
   id            Int       @id @default(autoincrement())
   group_id      Int 
   text          String?
-  status_read   Boolean
+  status_read   Boolean?
   created_at    DateTime @default(now())
   updated_at    DateTime @updatedAt
   deleted_at    DateTime? 
@@ -57,14 +57,14 @@ model Groups {
 model UserChatGroups {
   id              Int       @id @default(autoincrement())
   user_id         Int 
-  whislist_id     Int 
+  wishlist_id     Int 
   group_id        Int
-  status_read     Boolean
+  status_read     Boolean?
   created_at      DateTime @default(now())
   updated_at      DateTime @updatedAt
   deleted_at      DateTime?
-  author          User      @relation(fields: [user_id], references: [id])
-  group           Groups    @relation(fields: [group_id], references: [id])
+  author          User      @relation(fields: [user_id], references: [id],onUpdate: Cascade, onDelete: Cascade)
+  group           Groups    @relation(fields: [group_id], references: [id],onUpdate: Cascade, onDelete: Cascade)
 
   @@map("userchatgroups")
 }

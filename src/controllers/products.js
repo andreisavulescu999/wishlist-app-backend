@@ -2,7 +2,8 @@ import productServices from "../services/products.js";
 
 const getProducts = async (req, res, next) => {
     try {
-        res.json(await productServices.getAll());
+        const products = await productServices.getAll();
+        return res.json(products);
     } catch (err) {
         next(err);
     }
@@ -10,7 +11,7 @@ const getProducts = async (req, res, next) => {
 
 const getProduct = async (req, res, next) => {
     try {
-
+        console.log(req);
         const existingProduct = await productServices.getProduct(req.params.id);
 
         if (!existingProduct) {

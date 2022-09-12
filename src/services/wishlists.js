@@ -17,12 +17,19 @@ const getWishList = async (id) => {
 };
 
 const getUserWishLists = async (id) => {
-    const wishlist = await prisma.wishlists.findMany({
+    const wishlists = await prisma.wishlists.findMany({
         where: {
             user_id:parseInt(id)
         },
+        include:{
+            wishlistproducts:{
+                include:{
+                    product:true
+                }
+            }
+        }
     })
-    return wishlist;
+    return wishlists;
 };
 
 const addWishlist = async (data) => {
@@ -35,10 +42,8 @@ const addWishlist = async (data) => {
     if(data?.product_id)
     {
         const products = Array.from(data?.product_id);
-        console.log(products);
-        products.map((product_id) => {
-            console.log(newWishlist);
-            prisma.wishlistsproducts.create({
+        products.map(async(product_id) => {
+            const wishlistsproducts = await prisma.WishlistsProducts.create({
                 data: {
                     wishlist_id:parseInt(newWishlist.id),
                     product_id:parseInt(product_id),
@@ -47,9 +52,10 @@ const addWishlist = async (data) => {
         });
     }
 
-    const usersWishlist = await prisma.userWishlists.create({
+    const usersWishlist = await prisma.UserWishlists.create({
         data: {
             wishlist_id:parseInt(newWishlist.id),
+            creator_id:parseInt(data?.user_id),
         }
     });
     return newWishlist;
@@ -62,7 +68,6 @@ const updateWishlist = async (id,data) => {
         },
         data: {
             name:data?.name,
-            product_id:JSON.stringify(data?.product_id),
         }
     })
     return wishlist;
