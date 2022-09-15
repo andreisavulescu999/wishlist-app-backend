@@ -12,6 +12,13 @@ const getWishList = async (id) => {
         where: {
             id:parseInt(id)
         },
+        include:{
+            wishlistproducts:{
+                include:{
+                    product:true
+                }
+            }
+        }
     })
     return wishlist;
 };
@@ -20,6 +27,22 @@ const getUserWishLists = async (id) => {
     const wishlists = await prisma.wishlists.findMany({
         where: {
             user_id:parseInt(id)
+        },
+        include:{
+            wishlistproducts:{
+                include:{
+                    product:true
+                }
+            }
+        }
+    })
+    return wishlists;
+};
+
+const getWishListProducts = async (id) => {
+    const wishlists = await prisma.wishlists.findMany({
+        where: {
+            id:parseInt(id)
         },
         include:{
             wishlistproducts:{
@@ -83,4 +106,4 @@ const deleteWishlist = async (id) => {
     return Wishlist;
 };
 
-export default { getAll,getUserWishLists, getWishList, deleteWishlist, addWishlist, updateWishlist,getAll};
+export default { getAll,getUserWishLists,getWishListProducts, getWishList, deleteWishlist, addWishlist, updateWishlist,getAll};

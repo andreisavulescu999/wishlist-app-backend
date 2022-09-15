@@ -9,6 +9,8 @@ router.get('/user/:id',wishlist.getUserWishlists);
 
 router.get('/:id',wishlist.getWishlist);
 
+router.get('/:id/products',wishlist.getWishlistProducts);
+
 router.post('/create',wishlist.addWishlist);
 
 router.post('/:id/update',wishlist.updateWishlist);
