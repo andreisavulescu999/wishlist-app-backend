@@ -72,7 +72,8 @@ model Products {
   id            Int       @id @default(autoincrement())
   name          String
   user_id       Int      
-  features      Json
+  features      Json?
+  images        Json?
   created_at    DateTime @default(now())
   updated_at    DateTime @updatedAt
   deleted_at    DateTime?

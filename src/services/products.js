@@ -8,7 +8,7 @@ const getAll = async () => {
 };
 
 const getProduct = async (id) => {
-    const product = await prisma.products.findUnique({
+    const product = await prisma.products.findFirst({
         where: {
             id:parseInt(id)
         },
@@ -21,7 +21,8 @@ const addProduct = async (data) => {
         data: {
             name:data?.name,
             user_id:parseInt(data?.user_id),
-            features:data?.features
+            features:data?.features,
+            images:data?.images
         }
     });
     return newProduct;
@@ -34,7 +35,8 @@ const updateProduct = async (id, data) => {
         },
         data: {
             name:data?.name,
-            features:data?.features
+            features:data?.features,
+            images:data?.images
         }
     })
     return product;
