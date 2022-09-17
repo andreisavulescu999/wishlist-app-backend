@@ -3,9 +3,10 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const getAll = async () => {
-    const wishlists = await prisma.wishlists.findMany()
+    const wishlists = await prisma.wishlists.findMany();
     return wishlists;
 };
+
 
 const getWishList = async (id) => {
     const wishlist = await prisma.wishlists.findUnique({

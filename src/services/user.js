@@ -9,6 +9,39 @@ const getAll = async () => {
     return users;
 };
 
+const getBirthdays = async () => {
+    const d = new Date();
+    const next48Hours = d.setHours(d.getHours() + 48);
+    const users = await prisma.user.findUnique({
+        where: {
+            birthday : next48Hours
+        },
+        include:{
+            groups:true
+        }
+    })
+    
+    if(users)
+    {
+        users.map((elem,user_id) => {
+            const user_full_name =  elem.first_name + elem.last_name;
+            const groups = Array.from(elem.groups);
+            groups.map(async(group_id) => {
+                const notify = await prisma.notifications.create({
+                    data: {
+                        group_id: parseInt(group_id),
+                        user_id : parseInt(user_id),
+                        name:'In 48h it is the birhday of'+ user_full_name
+                    }
+                });
+            });
+        });
+
+    }
+
+    return user;
+};
+
 const getUser = async (id) => {
     const user = await prisma.user.findUnique({
         where: {
@@ -89,4 +122,4 @@ const loginUser = async (data) => {
         throw new Error("Invalid password");    
 }
 
-export default { getAll, getUser, deleteUser, addUser, updateUser, loginUser,getEmailUser };
+export default { getAll, getUser,getBirthdays, deleteUser, addUser, updateUser, loginUser,getEmailUser };

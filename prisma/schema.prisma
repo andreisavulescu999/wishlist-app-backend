@@ -96,6 +96,16 @@ model Wishlists {
   @@map("wishlists")
 }
 
+model Notifications {
+  id            Int      @id @default(autoincrement())
+  user_id       Int 
+  group_id      Int 
+  name          String
+  created_at    DateTime @default(now())
+
+  @@map("notifications")
+}
+
 model WishlistsProducts {
   id            Int      @id @default(autoincrement())
   wishlist_id   Int
